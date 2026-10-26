@@ -5,7 +5,7 @@ using UnityEngine.PlayerLoop;
 public class movimiento : MonoBehaviour
 {
     private Rigidbody rb;
-    public float velocidadAdelante = 10f;
+    public float velocidadAdelante = 20f;
     public float fuerzaSalto = 7f;
     public float velocidadCambio = 8f;
     private bool enSuelo = true;
@@ -20,6 +20,7 @@ public class movimiento : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
         if (mensajeFinal != null)
         {
             mensajeFinal.gameObject.SetActive(false);
@@ -51,20 +52,11 @@ public class movimiento : MonoBehaviour
 
     void FixedUpdate()
     {
-        //avance automático
-        rb.AddForce(Vector3.forward * velocidadAdelante);
-
-        //Cambio de carril
         float posXObj = carrilActual * distanciaCarril;
-        //sacar posicion actual del objeto
-        Vector3 posicionActual = rb.position;
-        //cambiar si toca hacia otros lados que no sean forward
-        Vector3 posicionDeseada = new Vector3(posXObj, posicionActual.y, posicionActual.z);
-        //NUEVA
-        Vector3 nuevaPos = Vector3.Lerp(posicionActual, posicionDeseada, Time.fixedDeltaTime * velocidadCambio);
-        //ALICARLA
-        rb.MovePosition(nuevaPos);
+        float velX = (posXObj - rb.position.x) * velocidadCambio;
 
+        // Z constante hacia adelante, X hacia el carril, Y se conserva (salto/gravedad)
+        rb.linearVelocity = new Vector3(velX, rb.linearVelocity.y, velocidadAdelante);
     }
 
     private void OnCollisionEnter(Collision choque)
@@ -90,7 +82,7 @@ public class movimiento : MonoBehaviour
             Destroy(otro.gameObject);
         }
         //Detección del final
-        if (otro.CompareTag("final"))
+        if (otro.CompareTag("Final"))
         {
             fin = true;
             if(contador_coleccionables >= coleccionables)
@@ -100,7 +92,7 @@ public class movimiento : MonoBehaviour
             else
             {
                 int faltantes = coleccionables - contador_coleccionables;
-                Mensaje("Te faltaron: "+faltantes +"huevos!");
+                Mensaje("Te faltaron: "+faltantes +" huevos!");
             }
         }
     }
