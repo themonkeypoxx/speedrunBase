@@ -16,6 +16,11 @@ public class movimiento : MonoBehaviour
     public int coleccionables = 19;
     public TMP_Text mensajeFinal;
     public Animator animator;
+    //TEMPORIZADOR
+    public float tiempoRestante = 120.0f;
+    public bool cuentaReg = true;
+    public TMP_Text temporizador;
+    private bool tempoactivo = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,6 +37,26 @@ public class movimiento : MonoBehaviour
     // Update se necesita para movimientos de carril
     void Update()
     {
+        if (tempoactivo)
+        {
+            if (cuentaReg)
+            {
+                tiempoRestante -= Time.deltaTime;
+
+                if (tiempoRestante <= 0)
+                {
+                    tiempoRestante = 0;
+                    tempoactivo = false;
+                    Mensaje("Se terminó el tiempo");
+                }
+            }
+            else
+            {
+                tiempoRestante += Time.deltaTime;
+            }
+            ActualizarTimes(tiempoRestante);
+        }
+
         //Si se apreta la a, restarle una unidad al carril actual (solo si este es mayor a -1)
         if (Input.GetKeyDown(KeyCode.W) && carrilActual > -1)
         {
@@ -55,10 +80,21 @@ public class movimiento : MonoBehaviour
             enSuelo = false;
         } 
 
+
     }
 
     void FixedUpdate()
     {
+
+        if (!tempoactivo || fin == true)
+        {
+            fin = true;
+            rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, 0f);
+            if (animator != null) {
+                animator.SetTrigger("idle");
+                }
+            return;
+        }
         float posXObj = carrilActual * distanciaCarril;
         float velX = (posXObj - rb.position.x) * velocidadCambio;
 
@@ -91,9 +127,6 @@ public class movimiento : MonoBehaviour
         //Detección del final
         if (otro.CompareTag("Final"))
         {
-            if (animator != null) {
-                animator.SetTrigger("idle");
-                }
             fin = true;
             if(contador_coleccionables >= coleccionables)
             {
@@ -114,5 +147,16 @@ public class movimiento : MonoBehaviour
             mensajeFinal.gameObject.SetActive(true);
         }
         
+    }
+    private void ActualizarTimes(float tiempoEnSegundos)
+    {
+        // Evita números negativossssss
+        if (tiempoEnSegundos < 0) tiempoEnSegundos = 0;
+
+        float minutos = Mathf.FloorToInt(tiempoEnSegundos / 60);
+        float segundos = Mathf.FloorToInt(tiempoEnSegundos % 60);
+
+        // pasar a MM:SS
+        temporizador.text = string.Format("{0:00}:{1:00}", minutos, segundos);
     }
 }
