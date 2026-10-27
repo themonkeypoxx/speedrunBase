@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: ddcfa64eb61c23148a800a34e53da503, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -423,7 +423,7 @@ Transform:
   m_GameObject: {fileID: 240228160}
   serializedVersion: 2
   m_LocalRotation: {x: 0.08783989, y: -0.70580417, z: 0.08891189, w: 0.69729435}
-  m_LocalPosition: {x: 13.13, y: 6.49, z: -7.27}
+  m_LocalPosition: {x: 12.85, y: 7.23, z: 0.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -730,6 +730,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 07c0d6a0fb6942c4083f85bacdd578ae, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1713977954}
+    - targetCorrespondingSourceObject: {fileID: -5151492872390713093, guid: 07c0d6a0fb6942c4083f85bacdd578ae, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1280142730}
   m_SourcePrefab: {fileID: 100100000, guid: 07c0d6a0fb6942c4083f85bacdd578ae, type: 3}
 --- !u!1 &1037815401
 GameObject:
@@ -1042,6 +1045,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1280142728 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5151492872390713093, guid: 07c0d6a0fb6942c4083f85bacdd578ae, type: 3}
+  m_PrefabInstance: {fileID: 968351312}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1280142730
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280142728}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8bd4f4e2e97e76c429cc9d08c6d311bd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1284572974
 GameObject:
   m_ObjectHideFlags: 0
@@ -1235,6 +1265,7 @@ MonoBehaviour:
   distanciaCarril: 3
   coleccionables: 19
   mensajeFinal: {fileID: 1662301537}
+  animator: {fileID: 1280142730}
 --- !u!54 &1713977953
 Rigidbody:
   m_ObjectHideFlags: 0

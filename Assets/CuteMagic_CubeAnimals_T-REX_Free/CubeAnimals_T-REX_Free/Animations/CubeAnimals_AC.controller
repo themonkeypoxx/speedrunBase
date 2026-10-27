@@ -28,7 +28,7 @@ AnimatorState:
   m_TimeParameter: 
 --- !u!1107 &-5050314221469189114
 AnimatorStateMachine:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -37,19 +37,19 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 6756264624493472200}
-    m_Position: {x: 709.81964, y: 955.24945, z: 0}
+    m_Position: {x: 740, y: 860, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 105378745347449838}
-    m_Position: {x: 719.81964, y: 965.24945, z: 0}
+    m_Position: {x: 910, y: 870, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 488541864099620876}
-    m_Position: {x: 729.81964, y: 975.24945, z: 0}
+    m_Position: {x: 550, y: 910, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3438246220579528487}
-    m_Position: {x: 739.81964, y: 985.24945, z: 0}
+    m_Position: {x: 960, y: 940, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6161032897650384093}
-    m_Position: {x: 749.81964, y: 995.24945, z: 0}
+    m_Position: {x: 590, y: 970, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -93,7 +93,7 @@ AnimatorController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: CubeAnimals_AC
-  serializedVersion: 5
+  serializedVersion: 6
   m_AnimatorParameters: []
   m_AnimatorLayers:
   - serializedVersion: 5
@@ -108,6 +108,7 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
+  m_EvaluateTransitionsOnStart: 0
 --- !u!1102 &105378745347449838
 AnimatorState:
   serializedVersion: 6

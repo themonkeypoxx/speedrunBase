@@ -15,6 +15,7 @@ public class movimiento : MonoBehaviour
     private bool fin = false;
     public int coleccionables = 19;
     public TMP_Text mensajeFinal;
+    public Animator animator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,11 +36,17 @@ public class movimiento : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W) && carrilActual > -1)
         {
             carrilActual--;
+            if (animator != null) {
+                animator.SetTrigger("izq");
+                }
         } 
 
         if (Input.GetKeyDown(KeyCode.S) && carrilActual < 1)
         {
             carrilActual++;
+            if (animator != null) {
+                animator.SetTrigger("der");
+                }
         } 
 
         if (Input.GetKeyDown(KeyCode.Space) && enSuelo)
@@ -84,6 +91,9 @@ public class movimiento : MonoBehaviour
         //Detección del final
         if (otro.CompareTag("Final"))
         {
+            if (animator != null) {
+                animator.SetTrigger("idle");
+                }
             fin = true;
             if(contador_coleccionables >= coleccionables)
             {
