@@ -6,7 +6,7 @@ public class movimiento : MonoBehaviour
 {
     private Rigidbody rb;
     public float velocidadAdelante = 20f;
-    public float fuerzaSalto = 7f;
+    public float fuerzaSalto = 10f;
     public float velocidadCambio = 8f;
     private bool enSuelo = true;
     private int carrilActual = 0; //centro, izq -1, derecha 1
@@ -21,6 +21,9 @@ public class movimiento : MonoBehaviour
     public bool cuentaReg = true;
     public TMP_Text temporizador;
     private bool tempoactivo = true;
+    public float duracionRetroceso = 1f;
+    public float velocidadRetroceso = 10f;
+    private float tiempoRetroceso = 0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -61,7 +64,7 @@ public class movimiento : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W) && carrilActual > -1)
         {
             carrilActual--;
-            if (animator != null) {
+           if (animator != null) {
                 animator.SetTrigger("izq");
                 }
         } 
@@ -85,27 +88,47 @@ public class movimiento : MonoBehaviour
 
     void FixedUpdate()
     {
-
-        if (!tempoactivo || fin == true)
+        if (!tempoactivo || fin)
         {
             fin = true;
             rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, 0f);
-            if (animator != null) {
-                animator.SetTrigger("idle");
-                }
+            if (animator != null) animator.SetTrigger("idle");
             return;
         }
+
         float posXObj = carrilActual * distanciaCarril;
         float velX = (posXObj - rb.position.x) * velocidadCambio;
 
-        // Z constante hacia adelante, X hacia el carril, Y se conserva (salto/gravedad)
+        if (tiempoRetroceso > 0f)
+        {
+            tiempoRetroceso -= Time.fixedDeltaTime;
+            float factor = Mathf.Clamp01(tiempoRetroceso / duracionRetroceso);
+            rb.linearVelocity = new Vector3(velX, rb.linearVelocity.y, -velocidadRetroceso * factor);
+            Debug.Log("Retrocediendo, velZ = " + (-velocidadRetroceso * factor));
+            return;
+        }
+
         rb.linearVelocity = new Vector3(velX, rb.linearVelocity.y, velocidadAdelante);
     }
 
     private void OnCollisionEnter(Collision choque)
     {
-        if(choque.gameObject.CompareTag("piso")){
+        if(choque.gameObject.CompareTag("piso"))
+        {
             enSuelo = true;
+        }
+
+        if (choque.gameObject.CompareTag("atasco") && tiempoRetroceso <= 0f)
+        {
+            if (tiempoRetroceso <= 0f)
+             {
+                 tiempoRetroceso = duracionRetroceso;  
+             }
+            if (animator != null)
+            {
+                animator.SetTrigger("choque");
+            }
+            
         }
     }
 
@@ -128,6 +151,7 @@ public class movimiento : MonoBehaviour
         if (otro.CompareTag("Final"))
         {
             fin = true;
+            tempoactivo = false;
             if(contador_coleccionables >= coleccionables)
             {
                Mensaje("¡Ganaste!"); 
@@ -158,5 +182,9 @@ public class movimiento : MonoBehaviour
 
         // pasar a MM:SS
         temporizador.text = string.Format("{0:00}:{1:00}", minutos, segundos);
+        if (fin)
+        {
+            return;
+        }
     }
 }
