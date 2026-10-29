@@ -24,6 +24,8 @@ public class movimiento : MonoBehaviour
     public float duracionRetroceso = 1f;
     public float velocidadRetroceso = 10f;
     private float tiempoRetroceso = 0f;
+    public TMP_Text contador_mostrado;
+    private bool ejeEnUso = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,6 +36,7 @@ public class movimiento : MonoBehaviour
         {
             mensajeFinal.gameObject.SetActive(false);
         }
+        ActualizarContador();
     }
 
     // Update is called once per frame
@@ -60,31 +63,41 @@ public class movimiento : MonoBehaviour
             ActualizarTimes(tiempoRestante);
         }
 
-        //Si se apreta la a, restarle una unidad al carril actual (solo si este es mayor a -1)
-        if (Input.GetKeyDown(KeyCode.W) && carrilActual > -1)
-        {
-            carrilActual--;
-           if (animator != null) {
-                animator.SetTrigger("izq");
+            float ejeVertical = Input.GetAxisRaw("Vertical");
+            if (ejeVertical != 0)
+            {
+                if (!ejeEnUso)
+                {
+                    if (ejeVertical > 0.5f && carrilActual > -1)
+                    {
+                        carrilActual--;
+                        if (animator != null)
+                        {
+                            animator.SetTrigger("izq");
+                        }
+                        ejeEnUso = true; // Bloquea nuevos cambios hasta soltar la palanca
+                    }
+                    else if (ejeVertical < -0.5f && carrilActual < 1)
+                    {
+                        carrilActual++;
+                        if (animator != null)
+                        {
+                            animator.SetTrigger("der");
+                        }
+                        ejeEnUso = true; // Bloquea nuevos cambios hasta soltar la palanca
+                    }
                 }
-        } 
+            }
+            else
+            {
+                ejeEnUso = false;
+            }
 
-        if (Input.GetKeyDown(KeyCode.S) && carrilActual < 1)
-        {
-            carrilActual++;
-            if (animator != null) {
-                animator.SetTrigger("der");
-                }
-        } 
-
-        if (Input.GetKeyDown(KeyCode.Space) && enSuelo)
+        if (Input.GetButtonDown("Jump") && enSuelo)
         {
             rb.AddForce(Vector3.up * fuerzaSalto, ForceMode.Impulse);
             enSuelo = false;
-        } 
-
-
-    }
+        }}
 
     void FixedUpdate()
     {
@@ -104,7 +117,6 @@ public class movimiento : MonoBehaviour
             tiempoRetroceso -= Time.fixedDeltaTime;
             float factor = Mathf.Clamp01(tiempoRetroceso / duracionRetroceso);
             rb.linearVelocity = new Vector3(velX, rb.linearVelocity.y, -velocidadRetroceso * factor);
-            Debug.Log("Retrocediendo, velZ = " + (-velocidadRetroceso * factor));
             return;
         }
 
@@ -132,6 +144,10 @@ public class movimiento : MonoBehaviour
         }
     }
 
+    private void ActualizarContador()
+    {
+        contador_mostrado.text = "Huevos rescatados: " + contador_coleccionables + " / " + coleccionables;
+    }
 
     private void OnTriggerEnter(Collider otro)
     {
@@ -146,6 +162,7 @@ public class movimiento : MonoBehaviour
             contador_coleccionables++;
             Debug.Log("Coleccionables: " + contador_coleccionables);
             Destroy(otro.gameObject);
+            ActualizarContador();
         }
         //Detección del final
         if (otro.CompareTag("Final"))
