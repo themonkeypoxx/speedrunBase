@@ -10,7 +10,7 @@ public class RaptorC_NoProta : MonoBehaviour
        
        if(valorAnim == 2)
         {
-            animator.SetBool("eat",true);
+            animator.SetTrigger("eat");
         }
     }
 
