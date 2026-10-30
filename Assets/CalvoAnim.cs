@@ -7,10 +7,7 @@ public class CalvoAnim : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-       if(valorAnim == 1)
-        {
-            animator.SetBool("idle",true);
-        } 
+       
        if(valorAnim == 2)
         {
             animator.SetBool("sleep",true);
@@ -22,4 +19,13 @@ public class CalvoAnim : MonoBehaviour
     {
         
     }
+
+    private void OnCollisionEnter(Collision choque)
+    {
+        if(choque.gameObject.CompareTag("prota"))
+        {
+          animator.SetTrigger("empujar");
+        }
+
+        }
 }

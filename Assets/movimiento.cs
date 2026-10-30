@@ -71,19 +71,12 @@ public class movimiento : MonoBehaviour
                     if (ejeVertical > 0.5f && carrilActual > -1)
                     {
                         carrilActual--;
-                        if (animator != null)
-                        {
-                            animator.SetTrigger("izq");
-                        }
                         ejeEnUso = true; // Bloquea nuevos cambios hasta soltar la palanca
                     }
                     else if (ejeVertical < -0.5f && carrilActual < 1)
                     {
                         carrilActual++;
-                        if (animator != null)
-                        {
-                            animator.SetTrigger("der");
-                        }
+                        
                         ejeEnUso = true; // Bloquea nuevos cambios hasta soltar la palanca
                     }
                 }
@@ -97,6 +90,10 @@ public class movimiento : MonoBehaviour
         {
             rb.AddForce(Vector3.up * fuerzaSalto, ForceMode.Impulse);
             enSuelo = false;
+            if (animator != null)
+                        {
+                            animator.SetTrigger("jump");
+                        }
         }}
 
     void FixedUpdate()
