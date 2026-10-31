@@ -12,6 +12,10 @@ public class RaptorC_NoProta : MonoBehaviour
         {
             animator.SetTrigger("eat");
         }
+       if(valorAnim == 1)
+        {
+            animator.SetTrigger("idle");
+        }
     }
 
     // Update is called once per frame

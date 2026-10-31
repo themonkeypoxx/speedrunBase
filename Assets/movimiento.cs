@@ -1,6 +1,8 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class movimiento : MonoBehaviour
 {
@@ -102,7 +104,10 @@ public class movimiento : MonoBehaviour
         {
             fin = true;
             rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, 0f);
-            if (animator != null) animator.SetTrigger("idle");
+            if (animator != null) 
+            {
+                animator.SetTrigger("idle");
+                }
             return;
         }
 
@@ -112,6 +117,7 @@ public class movimiento : MonoBehaviour
         if (tiempoRetroceso > 0f)
         {
             tiempoRetroceso -= Time.fixedDeltaTime;
+            //esto lo normaliza a 1 si es mayor q cero
             float factor = Mathf.Clamp01(tiempoRetroceso / duracionRetroceso);
             rb.linearVelocity = new Vector3(velX, rb.linearVelocity.y, -velocidadRetroceso * factor);
             return;
@@ -183,6 +189,7 @@ public class movimiento : MonoBehaviour
         {
             mensajeFinal.text = texto;
             mensajeFinal.gameObject.SetActive(true);
+            VolverMenu();
         }
         
     }
@@ -200,5 +207,11 @@ public class movimiento : MonoBehaviour
         {
             return;
         }
+    }
+
+    IEnumerator VolverMenu()
+    {
+        yield return new WaitForSeconds(5f);
+        SceneManager.LoadScene("Menu");
     }
 }
