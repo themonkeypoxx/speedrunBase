@@ -9,6 +9,8 @@ TagManager:
   - huevo
   - atasco
   - prota
+  - meteoro
+  - big_atasco
   layers:
   - Default
   - TransparentFX

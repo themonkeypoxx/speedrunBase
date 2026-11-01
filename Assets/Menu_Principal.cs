@@ -20,7 +20,7 @@ public class MenuPrincipal : MonoBehaviour
         Application.Quit();
     }
 
-    //ya me cansé de intentar que el botón funcione, quedará de adorno !!!!!!!!!!!!
+    //ya me cansé de intentar que el botón funcione con mi mando, quedará de adorno !!!!!!!!!!!!
      void Update()
     {
         if (Input.anyKeyDown)

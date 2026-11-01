@@ -135,15 +135,23 @@ public class movimiento : MonoBehaviour
 
         if (choque.gameObject.CompareTag("atasco") && tiempoRetroceso <= 0f)
         {
-            if (tiempoRetroceso <= 0f)
-             {
-                 tiempoRetroceso = duracionRetroceso;  
-             }
+             tiempoRetroceso = duracionRetroceso;  
+
             if (animator != null)
             {
                 animator.SetTrigger("choque");
             }
             
+        }
+        if (choque.gameObject.CompareTag("big_atasco") && tiempoRetroceso <= 0f)
+        {
+
+             tiempoRetroceso = duracionRetroceso;  
+
+            if (animator != null)
+            {
+                animator.SetTrigger("big_choque");
+            }
         }
     }
 
@@ -189,7 +197,7 @@ public class movimiento : MonoBehaviour
         {
             mensajeFinal.text = texto;
             mensajeFinal.gameObject.SetActive(true);
-            VolverMenu();
+            StartCoroutine(VolverMenu());
         }
         
     }
@@ -211,7 +219,7 @@ public class movimiento : MonoBehaviour
 
     IEnumerator VolverMenu()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
         SceneManager.LoadScene("Menu");
     }
 }
