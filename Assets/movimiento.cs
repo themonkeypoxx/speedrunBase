@@ -29,11 +29,22 @@ public class movimiento : MonoBehaviour
     public TMP_Text contador_mostrado;
     private bool ejeEnUso = false;
 
+    public AudioClip sonidoHuevo;
+    public float volumenHuevo = 0.6f;
+    private AudioSource audioSource;
+    public AudioClip sonidoatasco;
+    public AudioClip sonidosalto;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
         if (mensajeFinal != null)
         {
             mensajeFinal.gameObject.SetActive(false);
@@ -96,6 +107,10 @@ public class movimiento : MonoBehaviour
                         {
                             animator.SetTrigger("jump");
                         }
+             if (sonidosalto != null)
+            {
+                audioSource.PlayOneShot(sonidosalto, 0.6f);
+            }
         }}
 
     void FixedUpdate()
@@ -141,6 +156,10 @@ public class movimiento : MonoBehaviour
             {
                 animator.SetTrigger("choque");
             }
+            if (sonidoatasco != null)
+            {
+                audioSource.PlayOneShot(sonidoatasco, 0.6f);
+            }
             
         }
         if (choque.gameObject.CompareTag("big_atasco") && tiempoRetroceso <= 0f)
@@ -152,6 +171,12 @@ public class movimiento : MonoBehaviour
             {
                 animator.SetTrigger("big_choque");
             }
+            if (sonidoatasco != null)
+            {
+                audioSource.PlayOneShot(sonidoatasco, 0.6f);
+            }
+            
+            
         }
     }
 
@@ -174,6 +199,10 @@ public class movimiento : MonoBehaviour
             Debug.Log("Coleccionables: " + contador_coleccionables);
             Destroy(otro.gameObject);
             ActualizarContador();
+            if (sonidoHuevo != null)
+            {
+                audioSource.PlayOneShot(sonidoHuevo, volumenHuevo);
+            }
         }
         //Detección del final
         if (otro.CompareTag("Final"))
